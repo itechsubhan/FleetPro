@@ -6,10 +6,6 @@ function Home({ navigation }) {
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Welcome to FleetProSync</Text>
       <Text>a one stop shop for all your fleet management needs.</Text>
-      <Button
-        title="Go to TabNavigator"
-        onPress={() => navigation.navigate("TabNavigator")}
-      />
     </View>
   );
 }

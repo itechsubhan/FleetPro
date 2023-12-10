@@ -3,13 +3,17 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "./Home";
-import OrderHistoryScreen from "./OrderHistoryScreen";
+import UserInfo from "./UserInfo";
+import FindNearbyStations from "./FindNearbyStations";
+import TransactionHistory from "./TransactionHistory";
 const Tab = createBottomTabNavigator();
 function Dashboard({ navigation }) {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="OrderHistoryScreen" component={OrderHistoryScreen} />
+      <Tab.Screen name="Find" component={FindNearbyStations} />
+      <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
+      <Tab.Screen name="UserInfo" component={UserInfo} />
     </Tab.Navigator>
 
     // <View>

@@ -1,5 +1,3 @@
-import { EditIcon } from "lucide-react-native";
-
 import {
   Pressable,
   Toast,
@@ -28,7 +26,12 @@ import {
   InputField,
 } from "@gluestack-ui/themed";
 import { ArrowLeftIcon } from "lucide-react-native";
-import { GestureResponderEvent, ImageBackground, View } from "react-native";
+import {
+  GestureResponderEvent,
+  ImageBackground,
+  SafeAreaView,
+  View,
+} from "react-native";
 import React from "react";
 
 export default function WelcomeScreen({ navigation }) {
@@ -39,19 +42,26 @@ export default function WelcomeScreen({ navigation }) {
   }
   const toast = useToast();
   return (
-    <ImageBackground source={require("./carbg.png")}>
-    <Box h={"$full"} w={"$full"} justifyContent="center" alignItems="center">
-        <Text>Welcome to the app</Text>
-        <Button
-          action={"primary"}
-          variant={"solid"}
-          size={"lg"}
-          isDisabled={false}
-          onPress={gotoDashboard}
+    <SafeAreaView>
+      <ImageBackground source={require("./carbg.png")}>
+        <Box
+          h={"$full"}
+          w={"$full"}
+          justifyContent="center"
+          alignItems="center"
         >
-          <ButtonText>Continue to the Dashboard</ButtonText>
-        </Button>
-      </Box>
-    </ImageBackground>
+          <Text>Welcome to the app</Text>
+          <Button
+            action={"primary"}
+            variant={"solid"}
+            size={"lg"}
+            isDisabled={false}
+            onPress={gotoDashboard}
+          >
+            <ButtonText>Continue to the Dashboard</ButtonText>
+          </Button>
+        </Box>
+      </ImageBackground>
+    </SafeAreaView>
   );
 }
