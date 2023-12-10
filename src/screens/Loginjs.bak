@@ -1,0 +1,122 @@
+import React from "react";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { FIREBASE_AUTH } from "../../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import {   SafeAreaView } from "react-native-safe-area-context";
+import { GoogleAuthProvider } from "firebase/auth";
+
+// usestate hooks used
+function Login({navigation}) {
+  const [EMAIL, onChangeText] = React.useState("Username");
+  const [PASSWORD, onChangePassword] = React.useState("");
+  // Google oAuth
+  const provider = new GoogleAuthProvider();
+  
+  const oAuthLogin = async () => {
+      const response = await signInWithPopup(FIREBASE_AUTH, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(result)
+        console.log("response is " + response)
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
+  
+
+
+//LOGIN FIREBASE AUTH
+const signIn = async () => {
+  try {
+    const response = await signInWithEmailAndPassword(FIREBASE_AUTH, EMAIL, PASSWORD);
+    console.log(response);
+    navigation.navigate("Home");
+    alert("LOGGED IN");
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const signUp = async () => {
+  try {
+    const response = await createUserWithEmailAndPassword(
+      FIREBASE_AUTH,
+      EMAIL,
+      PASSWORD
+    );
+    console.log(response);
+    navigation.navigate("Home");
+  } catch (error) {
+    alert(error);
+  }
+};
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <SafeAreaView>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          autoCapitalize="none"
+          placeholder="email"
+          value={EMAIL}
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangePassword}
+          autoCapitalize="none"
+          placeholder="Password"
+          value={PASSWORD}
+        />
+
+        <Button title="Login" onPress={() => signIn(FIREBASE_AUTH, EMAIL, PASSWORD)} />
+        <Button
+          title="Create New Account"
+          onPress={() => signUp(FIREBASE_AUTH, EMAIL, PASSWORD)}
+        />
+        <Button title="Sign in with Google" onPress={() => oAuthLogin()} />
+        <Button title="Forgot Password" onPress={() => alert("Forgot Password")} />
+      </SafeAreaView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+  },
+  input: {
+    height: 50,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+});
+
+export default Login;
